@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediAssist AI — Smart Healthcare Information & Patient Assistant</title>
+  <meta name="description" content="A modern, responsive healthcare assistant for patient preparedness, general health education, symptom organization, and doctor visit planning.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Accessible Skip Link for Keyboard & Screen Reader Users -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========================================================================
+       TOP EMERGENCY & EDUCATIONAL DISCLAIMER BANNER
+       ======================================================================== -->
+  <aside class="emergency-banner" role="alert" aria-label="Emergency warning">
+    <div class="container">
+      <div class="emergency-content">
+        <span class="emergency-tag">Medical Notice</span>
+        <span><strong>Emergency?</strong> If you are experiencing chest pain, severe breathlessness, or signs of stroke, call <strong>911</strong> or your local emergency services immediately.</span>
+      </div>
+      <button type="button" class="emergency-cta-btn" id="openEmergencyModalBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        Emergency Red Flags
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       SITE HEADER & NAVIGATION
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#hero" class="brand-logo" aria-label="MediAssist AI Home">
+          <div class="brand-icon">
+            <!-- Medical Cross & Pulse Icon -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+              <path d="M12 5v6"></path>
+              <path d="M9 8h6"></path>
+            </svg>
+          </div>
+          <div class="brand-text-wrap">
+            <span class="brand-name">MediAssist<span>AI</span></span>
+            <span class="brand-tagline">Smart Patient Assistant</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav aria-label="Main Navigation">
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="#hero" class="nav-link active">Overview</a></li>
+            <li><a href="#ai-assistant" class="nav-link">AI Assistant</a></li>
+            <li><a href="#symptoms-organizer" class="nav-link">Symptom Organizer</a></li>
+            <li><a href="#appointment-planner" class="nav-link">Appointment Planner</a></li>
+            <li><a href="#medicines" class="nav-link">Medicine Guide</a></li>
+            <li><a href="#health-summary" class="nav-link">Visit Summary</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <!-- Accessibility Quick Display Controls -->
+          <div class="accessibility-controls" role="group" aria-label="Display accessibility options">
+            <button type="button" class="btn btn-secondary btn-sm" id="toggleFontSizeBtn" aria-label="Toggle larger font size for easier reading" title="Large text mode">Aa+</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="toggleContrastBtn" aria-label="Toggle high contrast mode" title="High contrast mode">◑ Contrast</button>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="headerPrepVisitBtn" onclick="location.href='#health-summary'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Doctor Prep Sheet
+          </button>
+          <button type="button" class="mobile-toggle-btn" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Landmark for Screen Readers -->
+  <main id="main-content">
+
+  <!-- ========================================================================
+       HERO SECTION
+       ======================================================================== -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <span class="hero-pill-dot"></span>
+            <span>Healthcare Education & Patient Preparedness</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Smart Preparation for Better <span class="gradient-text">Doctor Conversations</span>
+          </h1>
+          
+          <p class="hero-description">
+            MediAssist AI empowers patients to organize their health symptoms clearly, plan questions for upcoming medical appointments, explore safe medication knowledge, and learn general health concepts.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#ai-assistant" class="btn btn-primary" id="heroStartChatBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              Ask AI Assistant
+            </a>
+            <a href="#symptoms-organizer" class="btn btn-secondary" id="heroStartSymptomsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              Organize Symptoms
+            </a>
+            <button type="button" class="btn badge-prototype" id="explainPrototypeBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Architecture & API Notice
+            </button>
+          </div>
+
+          <div class="hero-trust-row">
+            <div class="hero-trust-item">
+              <svg class="hero-trust-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>100% Client-Side Privacy</span>
+            </div>
+            <div class="hero-trust-item">
+              <svg class="hero-trust-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+              <span>Zero Medical Diagnosis</span>
+            </div>
+            <div class="hero-trust-item">
+              <svg class="hero-trust-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>Printable Doctor Summary</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Preview Widget -->
+        <div class="hero-card-preview">
+          <div class="hero-preview-header">
+            <div>
+              <h3 style="font-size: 1.1rem;">Patient Hub Dashboard</h3>
+              <p style="font-size: 0.8rem; color: var(--slate-500);">Interactive Tools at a Glance</p>
+            </div>
+            <span class="preview-badge-live">
+              <span class="preview-badge-dot"></span> Active Session
+            </span>
+          </div>
+
+          <div class="preview-feature-list">
+            <div class="preview-feature-item" onclick="location.href='#ai-assistant'" style="cursor: pointer;">
+              <div class="preview-feat-icon feat-icon-teal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <div class="preview-feat-text">
+                <h4>AI Health Assistant</h4>
+                <p>Ask health education questions and learn key medical terminology safely.</p>
+              </div>
+            </div>
+
+            <div class="preview-feature-item" onclick="location.href='#symptoms-organizer'" style="cursor: pointer;">
+              <div class="preview-feat-icon feat-icon-blue">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+              </div>
+              <div class="preview-feat-text">
+                <h4>Symptom Organizer</h4>
+                <p>Structure your timeline, severity, and triggers to present to your clinician.</p>
+              </div>
+            </div>
+
+            <div class="preview-feature-item" onclick="location.href='#appointment-planner'" style="cursor: pointer;">
+              <div class="preview-feat-icon feat-icon-amber">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+              <div class="preview-feat-text">
+                <h4>Appointment Planner</h4>
+                <p>Prepare high-priority questions and checklist items so nothing is missed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       1. AI HEALTH ASSISTANT SECTION
+       ======================================================================== -->
+  <section class="section" id="ai-assistant">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">Interactive Assistant</span>
+        <h2 class="section-title">Educational Health Assistant</h2>
+        <p class="section-subtitle">
+          Explore common health concepts, test preparation tips, and medical terminology. Designed for general health literacy only.
+        </p>
+      </div>
+
+      <!-- AI Transparency & Medical Notice Banner -->
+      <div class="safety-callout safety-callout-teal">
+        <div class="safety-callout-icon">💡</div>
+        <div>
+          <strong>AI Transparency & Medical Notice:</strong> This assistant uses a secure server-side NVIDIA AI integration (NVIDIA NIM) for general health education and doctor visit preparation. Chat messages you enter are transmitted to the AI provider to generate educational responses. This service is strictly non-diagnostic, does not provide medical treatment, and never replaces a licensed doctor or qualified healthcare professional. If you are experiencing a medical emergency, call 911, 112, or local emergency services immediately.
+          <a href="javascript:void(0)" id="learnAiArchitectureLink" style="font-weight: 700; text-decoration: underline; margin-left: 0.35rem;">View Architecture Details</a>.
+        </div>
+      </div>
+
+      <!-- Chat Container -->
+      <div class="chat-container">
+        <!-- Sidebar with Suggested Topics -->
+        <div class="chat-sidebar">
+          <div class="chat-sidebar-top">
+            <h3>Suggested Questions</h3>
+            <p>Click any topic below to ask the assistant:</p>
+            <div class="suggested-prompts-label">Quick Education Topics</div>
+            <div class="prompt-chips-list" id="promptChipsList">
+              <!-- Dynamically populated or static prompt chips -->
+            </div>
+          </div>
+
+          <div class="chat-sidebar-bottom">
+            <div class="prototype-info-card">
+              <span class="badge badge-amber" style="margin-bottom: 0.4rem;">Non-Diagnostic</span>
+              <p>Does not diagnose or replace a doctor's care. Always consult a healthcare professional.</p>
+              <button type="button" class="proto-btn-link" id="resetChatBtn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                Clear Conversation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-main">
+          <div class="chat-header">
+            <div class="chat-assistant-meta">
+              <div class="chat-avatar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+              </div>
+              <div>
+                <h4>MediAssist Health Companion</h4>
+                <span id="chatStatusPill"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#10b981;"></span> Online &bull; Educational Mode</span>
+              </div>
+            </div>
+            <div class="chat-header-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="exportChatBtn" title="Copy conversation notes">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy Notes
+              </button>
+            </div>
+          </div>
+
+          <!-- Messages Scroll View -->
+          <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+            <!-- Initial Assistant Greeting -->
+            <div class="message-row assistant-row">
+              <div class="message-avatar ai-avatar">AI</div>
+              <div>
+                <div class="message-bubble">
+                  Hello! I am your <strong>MediAssist AI educational companion</strong>. I can help explain general health terms, provide evidence-based preparation tips for doctor visits or lab tests, and clarify lifestyle habits.
+                  <br><br>
+                  <em>Please note: I cannot diagnose conditions, recommend prescription dosages, or evaluate medical emergencies. How may I assist your health learning today?</em>
+                </div>
+                <span class="message-disclaimer-pill">Educational Only &bull; Non-Diagnostic</span>
+                <span class="message-time">Just now</span>
+              </div>
+            </div>
+
+            <!-- Typing indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+          <!-- Chat Input Bar -->
+          <div class="chat-input-bar">
+            <form id="chatForm" class="chat-input-form">
+              <input type="text" id="chatInput" class="chat-input-field" placeholder="Ask a general health question (e.g., 'Tips for better sleep', 'Dehydration signs')..." autocomplete="off" required>
+              <button type="submit" class="btn btn-primary" id="chatSendBtn" aria-label="Send message">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                Send
+              </button>
+            </form>
+            <div class="chat-footer-note">
+              Health questions are sent via your local backend to NVIDIA AI for educational answers. Personal symptoms and visit prep data remain in your browser storage.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2. SYMPTOM ORGANIZER SECTION
+       ======================================================================== -->
+  <section class="section section-alt" id="symptoms-organizer">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">Doctor Visit Prep</span>
+        <h2 class="section-title">Symptom Organizer</h2>
+        <p class="section-subtitle">
+          Structure your symptoms logically before meeting your doctor. Organizes duration, severity, and triggers without guessing diagnoses.
+        </p>
+      </div>
+
+      <div class="safety-callout safety-callout-amber">
+        <div class="safety-callout-icon">⚠️</div>
+        <div>
+          <strong>Non-Diagnostic Guarantee:</strong> This tool does not evaluate medical risks or diagnose diseases. It provides a structured communication template so your healthcare provider has clear, factual information during your appointment.
+        </div>
+      </div>
+
+      <div class="symptom-grid">
+        <!-- Input Form -->
+        <div class="card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.35rem;">Record a Symptom</h3>
+          <p style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 1.5rem;">Fill in the details below to add this symptom to your session sheet.</p>
+
+          <form id="symptomForm">
+            <!-- Common Quick Chips -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Quick Select Common Symptoms</span>
+                <span class="hint">Click to autofill</span>
+              </label>
+              <div class="chip-cloud" id="quickSymptomChips">
+                <button type="button" class="chip" data-symptom="Persistent Headache">Headache</button>
+                <button type="button" class="chip" data-symptom="Sore Throat">Sore Throat</button>
+                <button type="button" class="chip" data-symptom="Dry Cough">Cough</button>
+                <button type="button" class="chip" data-symptom="Unusual Fatigue">Fatigue</button>
+                <button type="button" class="chip" data-symptom="Lower Back Ache">Back Pain</button>
+                <button type="button" class="chip" data-symptom="Joint Stiffness">Joint Stiffness</button>
+                <button type="button" class="chip" data-symptom="Nausea">Nausea</button>
+                <button type="button" class="chip" data-symptom="Lightheadedness">Dizziness</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="symptomName" class="form-label">
+                <span>Symptom / Chief Complaint *</span>
+              </label>
+              <input type="text" id="symptomName" class="form-input" placeholder="e.g., Throbbing pain behind eyes" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="symptomLocation" class="form-label">Body Location</label>
+                <select id="symptomLocation" class="form-select">
+                  <option value="Head & Neck">Head & Neck</option>
+                  <option value="Chest & Respiratory">Chest & Respiratory</option>
+                  <option value="Abdomen & GI">Abdomen & GI</option>
+                  <option value="Arms, Legs & Joints">Arms, Legs & Joints</option>
+                  <option value="Skin & Surface">Skin & Surface</option>
+                  <option value="Generalized / Whole Body">Generalized / Whole Body</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="symptomDuration" class="form-label">Onset & Duration *</label>
+                <input type="text" id="symptomDuration" class="form-input" placeholder="e.g., Started 4 days ago, constant" required>
+              </div>
+            </div>
+
+            <!-- Severity Slider -->
+            <div class="form-group">
+              <label for="symptomSeverity" class="form-label">
+                <span>Severity Scale (1 to 10)</span>
+                <span id="severityLabelText" style="color: var(--teal-700); font-weight: 700;">Level 4 &bull; Moderate</span>
+              </label>
+              <div class="severity-slider-wrap">
+                <div class="severity-current-val">
+                  <span>Mild (1-3)</span>
+                  <span>Moderate (4-6)</span>
+                  <span>Severe (7-10)</span>
+                </div>
+                <input type="range" id="symptomSeverity" class="severity-slider" min="1" max="10" value="4">
+                <div class="severity-scale-ticks">
+                  <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="symptomTriggers" class="form-label">
+                <span>Triggers, Patterns or Relieving Factors</span>
+                <span class="hint">Optional context</span>
+              </label>
+              <textarea id="symptomTriggers" class="form-textarea" rows="2" placeholder="e.g., Worse when looking at bright screens; feels slightly relieved after lying down in a dark room."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="addSymptomBtn" style="width: 100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add to Session Sheet
+            </button>
+          </form>
+        </div>
+
+        <!-- Output Sheet -->
+        <div class="symptom-sheet-card">
+          <div class="sheet-header">
+            <div>
+              <h3>Doctor's Communication Sheet</h3>
+              <p>Real-time structured summary for your physician</p>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" id="copySymptomSheetBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+          </div>
+
+          <div class="sheet-body">
+            <!-- Active Symptoms Container -->
+            <div id="activeSymptomsContainer" class="active-symptoms-list">
+              <!-- Dynamically populated or empty state -->
+            </div>
+
+            <!-- Structured Clinician Prep Summary -->
+            <div class="doctor-prep-summary-box" id="prepSummaryBox" style="display: none;">
+              <div class="prep-summary-title">
+                <span>Clinical Notes Preview</span>
+                <span class="badge badge-teal">Ready for Doctor</span>
+              </div>
+              <ul class="prep-bullet-list" id="prepBulletList">
+                <!-- Dynamically generated bullet points -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. APPOINTMENT PLANNER SECTION
+       ======================================================================== -->
+  <section class="section" id="appointment-planner">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">Visit Organization</span>
+        <h2 class="section-title">Healthcare Appointment Planner</h2>
+        <p class="section-subtitle">
+          Ensure no question goes unanswered. Schedule upcoming consultations and prioritize key questions for your physician or specialist.
+        </p>
+      </div>
+
+      <div class="planner-grid">
+        <!-- New Appointment Form -->
+        <div class="card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.35rem;">Schedule & Prepare Visit</h3>
+          <p style="font-size: 0.85rem; color: var(--slate-500); margin-bottom: 1.5rem;">Enter appointment details and pick questions to ask.</p>
+
+          <form id="appointmentForm">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="doctorName" class="form-label">Doctor or Clinician Name *</label>
+                <input type="text" id="doctorName" class="form-input" placeholder="e.g., Dr. Sarah Jenkins" required>
+              </div>
+              <div class="form-group">
+                <label for="clinicName" class="form-label">Clinic / Health Center</label>
+                <input type="text" id="clinicName" class="form-input" placeholder="e.g., Metro Wellness Clinic">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="doctorSpecialty" class="form-label">Specialty</label>
+                <select id="doctorSpecialty" class="form-select">
+                  <option value="General Primary Care">General Primary Care / Family Doctor</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Dermatology">Dermatology</option>
+                  <option value="Endocrinology">Endocrinology</option>
+                  <option value="Gastroenterology">Gastroenterology</option>
+                  <option value="Neurology">Neurology</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Mental Health">Mental Health / Psychiatry</option>
+                  <option value="Other Specialist">Other Specialist</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="appointmentDateTime" class="form-label">Date & Time *</label>
+                <input type="datetime-local" id="appointmentDateTime" class="form-input" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="visitPurpose" class="form-label">Primary Goal or Reason for Visit *</label>
+              <input type="text" id="visitPurpose" class="form-input" placeholder="e.g., Annual wellness checkup & follow-up on back discomfort" required>
+            </div>
+
+            <!-- Smart Question Builder -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Add Recommended Questions for Your Doctor</span>
+                <span class="hint">Click to attach</span>
+              </label>
+              <div class="chip-cloud" id="suggestedQuestionsCloud">
+                <!-- Dynamically populated from data.js -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="customQuestionInput" class="form-label">Add a Custom Question</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="customQuestionInput" class="form-input" placeholder="Type a specific question you want answered...">
+                <button type="button" class="btn btn-secondary" id="addCustomQuestionBtn">Add</button>
+              </div>
+            </div>
+
+            <!-- Selected Questions List -->
+            <div class="form-group">
+              <label class="form-label">Selected Questions for This Visit (<span id="questionCountBadge">0</span>)</label>
+              <div id="selectedQuestionsList" style="display: flex; flex-direction: column; gap: 0.4rem; min-height: 40px; background: var(--slate-50); border: 1px dashed var(--slate-300); border-radius: var(--radius-md); padding: 0.75rem;">
+                <span style="font-size: 0.8rem; color: var(--slate-400);">No questions added yet. Pick from above or type your own.</span>
+              </div>
+            </div>
+
+            <!-- What to bring checklist -->
+            <div class="form-group">
+              <label class="form-label">Checklist: What to Bring</label>
+              <div class="checklist-group">
+                <label class="checklist-item">
+                  <input type="checkbox" id="chkId" checked>
+                  <span>Government Photo ID & Insurance Card</span>
+                </label>
+                <label class="checklist-item">
+                  <input type="checkbox" id="chkMeds" checked>
+                  <span>Current Medications & Supplement Bottles</span>
+                </label>
+                <label class="checklist-item">
+                  <input type="checkbox" id="chkRecords" checked>
+                  <span>Previous Lab Reports or Diagnostic Scans</span>
+                </label>
+                <label class="checklist-item">
+                  <input type="checkbox" id="chkQuestions" checked>
+                  <span>Printed MediAssist Question & Symptom Sheet</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="saveAppointmentBtn" style="width: 100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              Save Appointment Plan
+            </button>
+          </form>
+        </div>
+
+        <!-- Saved Appointments & Planning Card -->
+        <div>
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.15rem;">Upcoming Consultations</h3>
+              <span class="badge badge-teal" id="appointmentCounterBadge">0 Planned</span>
+            </div>
+            <div id="appointmentsCardContainer" class="appointment-card-list">
+              <!-- Dynamically populated or empty state -->
+            </div>
+          </div>
+
+          <div class="card" style="background: var(--blue-50); border-color: var(--blue-200);">
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="color: var(--blue-600); font-size: 1.25rem;">📋</div>
+              <div>
+                <h4 style="font-size: 0.95rem; color: var(--blue-900); margin-bottom: 0.25rem;">Doctor Consultation Tip</h4>
+                <p style="font-size: 0.825rem; color: var(--blue-900); line-height: 1.5;">
+                  Studies show patients remember less than 50% of what is discussed during a clinical appointment. Writing down your questions beforehand and taking brief notes during your consultation dramatically improves health outcomes and medication safety.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. MEDICINE INFORMATION & TRACKER SECTION
+       ======================================================================== -->
+  <section class="section section-alt" id="medicines">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">Educational Medicine Guide</span>
+        <h2 class="section-title">Medicine Information & Safety Reminders</h2>
+        <p class="section-subtitle">
+          Search evidence-based profiles of common medications, food interactions, safe storage guidelines, and track your daily dose schedule.
+        </p>
+      </div>
+
+      <div class="safety-callout safety-callout-teal">
+        <div class="safety-callout-icon">ℹ️</div>
+        <div>
+          <strong>Educational Reference Only:</strong> Drug information provided here is for general educational awareness. Never change, pause, or start prescription medications without direct authorization from your prescribing physician or pharmacist.
+        </div>
+      </div>
+
+      <!-- Controls: Search & Category Filter -->
+      <div class="medicine-controls">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="medicineSearchInput" class="search-field" placeholder="Search medicines by brand or generic name...">
+        </div>
+
+        <div class="med-category-filters" id="medCategoryFilters">
+          <button type="button" class="filter-btn active" data-category="all">All Medicines</button>
+          <button type="button" class="filter-btn" data-category="Pain & Fever Relief">Pain & Fever</button>
+          <button type="button" class="filter-btn" data-category="Antibiotics">Antibiotics</button>
+          <button type="button" class="filter-btn" data-category="Allergy & Antihistamine">Allergy</button>
+          <button type="button" class="filter-btn" data-category="Blood Sugar Regulation">Blood Sugar</button>
+          <button type="button" class="filter-btn" data-category="Acid Reducer & GI Health">GI & Acid</button>
+        </div>
+      </div>
+
+      <!-- Medicines Cards Grid -->
+      <div class="medicine-grid" id="medicineGridContainer">
+        <!-- Dynamically rendered from MEDICINE_DATABASE -->
+      </div>
+
+      <!-- Personal Medication Schedule Tracker -->
+      <div class="med-tracker-card">
+        <div class="tracker-header">
+          <div>
+            <h3 style="font-size: 1.25rem;">My Daily Medication Schedule Tracker</h3>
+            <p style="font-size: 0.825rem; color: var(--slate-500);">Keep track of your prescribed daily doses locally in your browser</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="toggleAddMedFormBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add Medication to Tracker
+          </button>
+        </div>
+
+        <!-- Add Medication Subform (Collapsible) -->
+        <div id="addMedFormWrap" style="display: none; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <form id="personalMedForm">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="trackMedName" class="form-label">Medication Name *</label>
+                <input type="text" id="trackMedName" class="form-input" placeholder="e.g., Metformin" required>
+              </div>
+              <div class="form-group">
+                <label for="trackMedDose" class="form-label">Dosage & Strength *</label>
+                <input type="text" id="trackMedDose" class="form-input" placeholder="e.g., 500 mg tablet" required>
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="trackMedTime" class="form-label">Time of Day / Frequency</label>
+                <input type="text" id="trackMedTime" class="form-input" placeholder="e.g., Morning with breakfast (08:00 AM)" required>
+              </div>
+              <div class="form-group">
+                <label for="trackMedInstructions" class="form-label">Special Instructions</label>
+                <input type="text" id="trackMedInstructions" class="form-input" placeholder="e.g., Take with a full glass of water, do not crush">
+              </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+              <button type="button" class="btn btn-secondary btn-sm" id="cancelAddMedBtn">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-sm">Save to Tracker</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- User Meds List -->
+        <div id="myMedsContainer" class="my-meds-list">
+          <!-- Dynamically populated or empty state -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. COMPREHENSIVE HEALTH SUMMARY (DOCTOR VISIT PREP SHEET)
+       ======================================================================== -->
+  <section class="section" id="health-summary">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">Unified Health Summary</span>
+        <h2 class="section-title">Doctor Visit Prep Summary Sheet</h2>
+        <p class="section-subtitle">
+          An organized overview of all your symptoms, scheduled appointments, questions to ask, and active medications. Ready to print or save.
+        </p>
+      </div>
+
+      <div class="summary-container" id="printableSummarySheet">
+        <!-- Summary Action Toolbar -->
+        <div class="summary-toolbar">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <label for="patientDisplayName" style="font-size: 0.85rem; font-weight: 700; color: var(--slate-700);">Patient Name / Identifier:</label>
+            <input type="text" id="patientDisplayName" class="form-input" style="width: 200px; padding: 0.4rem 0.65rem;" placeholder="e.g., Jane Doe (Optional)">
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary btn-sm" id="printSummaryBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              Print / Save as PDF
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="copyAllSummaryBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy Text
+            </button>
+            <button type="button" class="btn btn-danger-outline btn-sm" id="clearAllDataBtn" title="Clear all local data from this browser">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              Clear Stored Data
+            </button>
+          </div>
+        </div>
+
+        <!-- Printable Document Header -->
+        <div class="summary-report-header">
+          <div class="report-clinic-info">
+            <h2>MediAssist AI &bull; Patient Consultation Summary</h2>
+            <p id="reportPatientSubtitle">Comprehensive pre-visit dossier compiled for clinical discussion</p>
+          </div>
+          <div class="report-meta-box">
+            <div><strong>Generated Date:</strong> <span id="summaryReportDate">--</span></div>
+            <div><strong>Session Security:</strong> Browser Local (No cloud storage)</div>
+          </div>
+        </div>
+
+        <!-- 4-Quadrant Clinical Report Grid -->
+        <div class="report-grid">
+          <!-- 1. Active Symptoms -->
+          <div class="report-section-block">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-600)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              1. Active Symptoms & Discomfort
+            </h3>
+            <div id="summarySymptomsContent">
+              <p class="report-empty-note">No symptoms currently recorded. Add symptoms in the Symptom Organizer section above.</p>
+            </div>
+          </div>
+
+          <!-- 2. Upcoming Appointment & Goals -->
+          <div class="report-section-block">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              2. Appointment & Clinical Context
+            </h3>
+            <div id="summaryAppointmentContent">
+              <p class="report-empty-note">No appointment scheduled. Plan your visit in the Appointment Planner section above.</p>
+            </div>
+          </div>
+
+          <!-- 3. Questions Prepared for Doctor -->
+          <div class="report-section-block">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber-600)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              3. Questions for My Healthcare Provider
+            </h3>
+            <div id="summaryQuestionsContent">
+              <p class="report-empty-note">No specific questions selected yet.</p>
+            </div>
+          </div>
+
+          <!-- 4. Current Medications & Schedule -->
+          <div class="report-section-block">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-600)" stroke-width="2"><path d="M10.5 20.5 3 13a6.36 6.36 0 0 1 0-9 6.36 6.36 0 0 1 9 0l7.5 7.5"></path><path d="m8.5 8.5 7 7"></path></svg>
+              4. Current Medications & Supplements
+            </h3>
+            <div id="summaryMedsContent">
+              <p class="report-empty-note">No medications tracked. Add to your tracker in the Medicine Guide section above.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctor Sign-off / Clinical Notes Line (Useful for printouts) -->
+        <div class="doctor-signoff-box">
+          <div>
+            <strong>Physician Notes / Next Steps:</strong>
+            <div style="font-size: 0.8rem; color: var(--slate-400); margin-top: 0.35rem;">To be filled out during consultation</div>
+          </div>
+          <div>
+            <div>Doctor Signature:</div>
+            <span class="signoff-line"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MODAL: PROTOTYPE TRANSPARENCY & REAL AI ARCHITECTURE
+       ======================================================================== -->
+  <div class="modal-backdrop" id="prototypeModal" role="dialog" aria-modal="true" aria-labelledby="protoModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="protoModalTitle">NVIDIA AI Transparency & Integration Details</h3>
+        <button type="button" class="modal-close-btn" id="closePrototypeModalBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.9rem; color: var(--slate-600); margin-bottom: 1rem;">
+          <strong>MediAssist AI</strong> uses a secure Node.js backend integrated with <strong>NVIDIA NIM AI</strong> for general health education and patient visit preparation. Health education questions entered in the chat are transmitted to NVIDIA's AI service to generate responses. Personal planner data (symptoms, appointments, and medication schedules) is saved exclusively in your browser's local storage.
+        </p>
+
+        <h4 style="font-size: 0.95rem; color: var(--slate-900); margin-bottom: 0.5rem;">How the Server-Side NVIDIA AI Integration Operates:</h4>
+        
+        <div class="arch-step-list">
+          <div class="arch-step-item">
+            <div class="arch-step-num">1</div>
+            <div class="arch-step-content">
+              <h4>Secure Backend Proxy (Node.js & Express)</h4>
+              <p>Your browser communicates only with your local server. Your private NVIDIA API key is stored safely in server environment variables (.env) and is never exposed to browser JavaScript.</p>
+            </div>
+          </div>
+
+          <div class="arch-step-item">
+            <div class="arch-step-num">2</div>
+            <div class="arch-step-content">
+              <h4>Server-Side AI Model Inference</h4>
+              <p>When you ask a question, the backend securely forwards your prompt to NVIDIA NIM's API to generate plain-language health explanations and doctor discussion questions.</p>
+            </div>
+          </div>
+
+          <div class="arch-step-item">
+            <div class="arch-step-num">3</div>
+            <div class="arch-step-content">
+              <h4>Strict Non-Diagnostic Clinical Safety Guardrails</h4>
+              <p>System instructions constrain the AI: it adopts a supportive educational tone, explicitly refuses to provide definitive medical diagnoses or prescribe medications, and directs emergency red flags immediately to 911 / 112.</p>
+            </div>
+          </div>
+
+          <div class="arch-step-item">
+            <div class="arch-step-num">4</div>
+            <div class="arch-step-content">
+              <h4>Zero Unnecessary Medical Data Storage</h4>
+              <p>The backend does not store, log, or persist user medical questions to any database or disk files, ensuring minimal data retention.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="ackPrototypeModalBtn">I Understand</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: EMERGENCY RED FLAGS & CRISIS HOTLINES
+       ======================================================================== -->
+  <div class="modal-backdrop" id="emergencyModal" role="dialog" aria-modal="true" aria-labelledby="emergencyModalTitle">
+    <div class="modal-card">
+      <div class="modal-header" style="background: var(--rose-50); border-bottom-color: var(--rose-200);">
+        <h3 id="emergencyModalTitle" style="color: var(--rose-700); display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          Emergency Red Flags & Immediate Care
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeEmergencyModalBtn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 1rem;">
+          If you or someone around you experiences any of the following symptoms, <strong>do not wait or use this website</strong>. Call emergency services immediately:
+        </p>
+
+        <div id="emergencyRedFlagsList" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+          <!-- Dynamically populated from EMERGENCY_RED_FLAGS -->
+        </div>
+
+        <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: var(--radius-md); padding: 1rem;">
+          <h4 style="font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--slate-800);">Emergency Hotline Directory</h4>
+          <ul style="font-size: 0.825rem; color: var(--slate-600); padding-left: 1.25rem; line-height: 1.6;">
+            <li><strong>United States / Canada:</strong> Call <strong>911</strong> (Emergency) or <strong>988</strong> (Suicide & Crisis Lifeline)</li>
+            <li><strong>European Union / UK:</strong> Call <strong>112</strong> (EU Universal) or <strong>999</strong> (UK)</li>
+            <li><strong>India:</strong> Call <strong>112</strong> (National Emergency) or <strong>108</strong> (Ambulance)</li>
+            <li><strong>Poison Control (US):</strong> 1-800-222-1222</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="ackEmergencyModalBtn">Close Warning Guide</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>MediAssist AI</h4>
+          <p>
+            An educational patient-preparedness platform helping individuals organize symptoms, prepare for clinical visits, and understand health fundamentals.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Features</h5>
+          <ul class="footer-links">
+            <li><a href="#ai-assistant">AI Health Assistant</a></li>
+            <li><a href="#symptoms-organizer">Symptom Organizer</a></li>
+            <li><a href="#appointment-planner">Appointment Planner</a></li>
+            <li><a href="#medicines">Medicine Guide</a></li>
+            <li><a href="#health-summary">Doctor Prep Sheet</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Patient Safety</h5>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" id="footerRedFlagsLink">Emergency Red Flags</a></li>
+            <li><a href="javascript:void(0)" id="footerPrivacyLink">Privacy Guarantee</a></li>
+            <li><a href="javascript:void(0)" id="footerProtoLink">Prototype Architecture</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Emergency Support</h5>
+          <p style="font-size: 0.85rem; color: var(--slate-400); margin-bottom: 0.5rem;">
+            Experiencing acute or life-threatening symptoms?
+          </p>
+          <a href="tel:911" class="btn btn-accent btn-sm" style="width: fit-content;">
+            Emergency: Dial 911 / 112
+          </a>
+        </div>
+      </div>
+
+      <!-- Critical Medical Disclaimer -->
+      <div class="footer-disclaimer-box">
+        <strong>CRITICAL MEDICAL DISCLAIMER:</strong> MediAssist AI is an educational technology prototype built for general informational and patient preparedness purposes only. It is NOT a medical device, does NOT diagnose conditions, does NOT prescribe medications, and must NEVER replace direct consultation, diagnosis, or treatment with a licensed physician or qualified healthcare provider. Never disregard professional medical advice or delay seeking it because of information accessed on this website.
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 MediAssist AI. Built with HTML, CSS, & Vanilla JavaScript.</div>
+        <div>Patient planner data is stored in your local browser &bull; AI assistant powered by server-side NVIDIA NIM</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

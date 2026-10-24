@@ -1,0 +1,25 @@
+{
+  "name": "mediassist-ai",
+  "version": "1.0.0",
+  "description": "MediAssist AI — Smart Healthcare Information & Patient Assistant with Secure Node.js Backend",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js"
+  },
+  "keywords": [
+    "healthcare",
+    "patient-assistant",
+    "express",
+    "gemini-ai",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^2.31.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
